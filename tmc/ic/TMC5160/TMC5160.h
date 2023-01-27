@@ -27,7 +27,7 @@
 typedef struct
 {
 	ConfigurationTypeDef *config;
-	int velocity, oldX;
+	int32_t velocity, oldX;
 	uint32_t oldTick;
 	int32_t registerResetState[TMC5160_REGISTER_COUNT];
 	uint8_t registerAccess[TMC5160_REGISTER_COUNT];
@@ -36,15 +36,15 @@ typedef struct
 typedef void (*tmc5160_callback)(TMC5160TypeDef*, ConfigState);
 
 // Default Register values
-#define R00 0x00000008  // GCONF
-#define R09 0x00010606  // SHORTCONF
-#define R0A 0x00080400  // DRVCONF
-#define R10 0x00070A03  // IHOLD_IRUN
-#define R11 0x0000000A  // TPOWERDOWN
-#define R2B 0x00000001  // VSTOP
-#define R3A 0x00010000  // ENC_CONST
-#define R6C 0x00410153  // CHOPCONF
-#define R70 0xC40C001E  // PWMCONF
+#define R00 (int32_t)0x00000008  // GCONF
+#define R09 (int32_t)0x00010606  // SHORTCONF
+#define R0A (int32_t)0x00080400  // DRVCONF
+#define R10 (int32_t)0x00070A03  // IHOLD_IRUN
+#define R11 (int32_t)0x0000000A  // TPOWERDOWN
+#define R2B (int32_t)0x00000001  // VSTOP
+#define R3A (int32_t)0x00010000  // ENC_CONST
+#define R6C (int32_t)0x00410153  // CHOPCONF
+#define R70 (int32_t)0xC40C001E  // PWMCONF
 
 static const int32_t tmc5160_defaultRegisterResetState[TMC5160_REGISTER_COUNT] =
 {

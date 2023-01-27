@@ -232,7 +232,7 @@ void tmc5160_periodicJob(TMC5160TypeDef *tmc5160, uint32_t tick)
 void tmc5160_rotate(TMC5160TypeDef *tmc5160, int32_t velocity)
 {
 	// Set absolute velocity
-	tmc5160_writeInt(tmc5160, TMC5160_VMAX, abs(velocity));
+	tmc5160_writeInt(tmc5160, TMC5160_VMAX, ABS(velocity));
 	// Set direction
 	tmc5160_writeInt(tmc5160, TMC5160_RAMPMODE, (velocity >= 0) ? TMC5160_MODE_VELPOS : TMC5160_MODE_VELNEG);
 }

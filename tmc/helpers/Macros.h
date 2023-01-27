@@ -22,6 +22,9 @@
 #ifndef MAX
 	#define MAX(a,b) (((a)>(b)) ? (a) : (b))
 #endif
+#ifndef ABS
+	#define ABS(a) ((a<0)?(-a):(a))
+#endif
 
 // Static Array length
 #define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
