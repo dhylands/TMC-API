@@ -13,6 +13,10 @@
 #include "TMC5160_Constants.h"
 #include "TMC5160_Fields.h"
 
+// Setting TMC5160_SMALL_MEMORY to 1 removes the tmc5160_setRegisterResetState and allows the
+// default reset state passed into tmc5160_init to be used, saving 512 bytes per instance.
+#define TMC5160_SMALL_MEMORY 1
+
 // Helper macros
 #define TMC5160_FIELD_READ(tdef, address, mask, shift) \
 	FIELD_GET(tmc5160_readInt(tdef, address), mask, shift)
@@ -29,7 +33,11 @@ typedef struct
 	ConfigurationTypeDef *config;
 	int32_t velocity, oldX;
 	uint32_t oldTick;
+#if TMC5160_SMALL_MEMORY
+    int32_t const* registerResetState;
+#else
 	int32_t registerResetState[TMC5160_REGISTER_COUNT];
+#endif
 	uint8_t registerAccess[TMC5160_REGISTER_COUNT];
 } TMC5160TypeDef;
 

@@ -71,12 +71,21 @@ void tmc5160_init(TMC5160TypeDef *tmc5160, uint8_t channel, ConfigurationTypeDef
 	tmc5160->config->configIndex  = 0;
 	tmc5160->config->state        = CONFIG_READY;
 
+#if TMC5160_SMALL_MEMORY
+    tmc5160->registerResetState = registerResetState;
+    size_t i;
+    for(i = 0; i < TMC5160_REGISTER_COUNT; i++)
+    {
+        tmc5160->registerAccess[i]      = tmc5160_defaultRegisterAccess[i];
+    }
+#else
 	size_t i;
 	for(i = 0; i < TMC5160_REGISTER_COUNT; i++)
 	{
 		tmc5160->registerAccess[i]      = tmc5160_defaultRegisterAccess[i];
 		tmc5160->registerResetState[i]  = registerResetState[i];
 	}
+#endif
 }
 
 // Fill the shadow registers of hardware preset non-readable registers
@@ -147,6 +156,10 @@ uint8_t tmc5160_restore(TMC5160TypeDef *tmc5160)
 	return true;
 }
 
+// By removing this function, there are no other functions which modify registerResetState
+// and we can make the registerResetState field in TMC5160TypeDef be a pointer rather than
+// an array. This reduces the memory usage by 512 bytes per instance.
+#if TMC5160_SMALL_MEMORY == 0
 // Change the values the IC will be configured with when performing a reset.
 void tmc5160_setRegisterResetState(TMC5160TypeDef *tmc5160, const int32_t *resetState)
 {
@@ -156,6 +169,7 @@ void tmc5160_setRegisterResetState(TMC5160TypeDef *tmc5160, const int32_t *reset
 		tmc5160->registerResetState[i] = resetState[i];
 	}
 }
+#endif
 
 // Register a function to be called after completion of the configuration mechanism
 void tmc5160_setCallback(TMC5160TypeDef *tmc5160, tmc5160_callback callback)
