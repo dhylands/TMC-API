@@ -19,7 +19,7 @@ void tmc5160_writeDatagram(TMC5160TypeDef *tmc5160, uint8_t address, uint8_t x1,
 	uint8_t data[5] = { address | TMC5160_WRITE_BIT, x1, x2, x3, x4 };
 	tmc5160_readWriteArray(tmc5160->config->channel, &data[0], 5);
 
-	int32_t value = ((uint32_t)x1 << 24) | ((uint32_t)x2 << 16) | (x3 << 8) | x4;
+	int32_t value = ((uint32_t)x1 << 24) | ((uint32_t)x2 << 16) | ((uint32_t)x3 << 8) | (uint32_t)x4;
 
 	// Write to the shadow register and mark the register dirty
 	address = TMC_ADDRESS(address);
